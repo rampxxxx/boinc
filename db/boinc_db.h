@@ -444,6 +444,7 @@ struct WORKUNIT {
 struct USER_WORKUNIT {
     int user_id;
     double workunit_id;
+    char parameters[BLOB_SIZE];
     void clear();
 };
 

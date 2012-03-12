@@ -31,6 +31,8 @@
 #include <cstdlib>
 #include <string>
 #include <cstring>
+#include <iostream>
+#include <fstream>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -58,14 +60,33 @@ DB_APP app;
 int start_time;
 int seqno;
 
+// read parameters file
+using namespace std;
+void readParametersFile(const char* fileName, char*content)
+{
+ ifstream myReadFile;
+ myReadFile.open(fileName);
+ char line[100]={0};
+ if (myReadFile.is_open()) {
+ while (!myReadFile.eof()) {
+    myReadFile.getline(line,100);
+    strcat(content, line);
+    strcat(content, "\n");
+ }
+}
+myReadFile.close();
+
+}
 // create one new job
 //
 int make_job(char *n, char*p) {
     DB_WORKUNIT wu;
+    DB_USER_WORKUNIT uwu;
     char name[256], path[256];
     const char* infiles[1];
-    int retval;
+    int retval; 
 
+    uwu.clear();
     // make a unique name (for the job and its input file)
     //
     sprintf(name, "%s_%d_%d", app_name, start_time, seqno++);
@@ -91,6 +112,7 @@ printf("Intentando lanzar el comando KO \n");
 	return -1;
 }
 printf("Intentando lanzar el comando OK \n");
+readParametersFile(path, uwu.parameters);
 /*
     FILE* f = fopen(path, "w");
     if (!f) return ERR_FOPEN;
@@ -147,10 +169,9 @@ return_create_work = create_work(
     /*
      * INI : EM insert into user_workunit
      */
-DB_USER_WORKUNIT uwu;
-uwu.clear();
 uwu.user_id=user_id;   // parameter to program.
 uwu.workunit_id=wu.id; // get id from created working unit.
+printf("PARAMETROS user_id (%d) workunit_id (%d) (%s) \n", user_id, wu.id, uwu.parameters);
 uwu.insert();
     /*
      * FIN : EM insert into user_workunit
