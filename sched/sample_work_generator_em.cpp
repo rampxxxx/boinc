@@ -46,6 +46,8 @@
 #include "sched_msgs.h"
 #include "str_util.h"
 
+#include <sys/time.h> //gettimeofday
+
 #define CUSHION 10
     // maintain at least this many unsent results
 #define REPLICATION_FACTOR  1
@@ -57,7 +59,8 @@ const char* out_template_file = "example_app_out.xml";
 
 char* in_template;
 DB_APP app;
-int start_time;
+//int start_time;
+struct timeval start_time;
 int seqno;
 
 // read parameters file
@@ -89,7 +92,7 @@ int make_job(char *n, char*p) {
     uwu.clear();
     // make a unique name (for the job and its input file)
     //
-    sprintf(name, "%s_%d_%d", app_name, start_time, seqno++);
+    sprintf(name, "%s_%d_%d_%d", app_name, start_time.tv_sec, start_time.tv_usec, seqno++);
 strcpy(n, name);
     // Create the input file.
     // Put it at the right place in the download dir hierarchy
@@ -314,7 +317,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    start_time = time(0);
+    gettimeofday(&start_time, NULL);
     seqno = 0;
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
