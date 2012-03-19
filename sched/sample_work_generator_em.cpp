@@ -56,6 +56,7 @@ const char* app_name = "example_app";
       int   user_id = 1;
 const char* in_template_file = "example_app_in.xml";
 const char* out_template_file = "example_app_out.xml";
+const char* alias = "alias_name";
 
 char* in_template;
 DB_APP app;
@@ -174,6 +175,7 @@ return_create_work = create_work(
      */
 uwu.user_id=user_id;   // parameter to program.
 uwu.workunit_id=wu.id; // get id from created working unit.
+strcpy(uwu.alias,alias);
 printf("PARAMETROS user_id (%d) workunit_id (%d) (%s) \n", user_id, wu.id, uwu.parameters);
 uwu.insert();
     /*
@@ -186,7 +188,7 @@ return return_create_work;
 void main_loop() {
     int retval;
 
-    while (1) {
+    //while (1) {
         check_stop_daemons();
         int n;
         retval = count_unsent_results(n, 0);
@@ -196,18 +198,18 @@ void main_loop() {
             );
             exit(retval);
         }
-        if (n > CUSHION) {
-            log_messages.printf(MSG_DEBUG,
-                "sleep (10)\n"
-            );
-            sleep(10);
-        } else {
+        //if (n > CUSHION) {
+         //   log_messages.printf(MSG_DEBUG,
+          //      "sleep (10)\n"
+          //  );
+            //sleep(10);
+        //} else {
             int njobs = (CUSHION-n)/REPLICATION_FACTOR;
             log_messages.printf(MSG_DEBUG,
                 "em Making %d jobs : CUSHION (%d)  n (%d) app (%s)\n", njobs, CUSHION, n, app_name
             );
 	    char name[256], path[256];
-            for (int i=0; i<njobs; i++) {
+            //for (int i=0; i<njobs; i++) {
                 retval = make_job(name, path);
 exit(retval);//Salida incondicional al generar un unico trabajo :-)
                 if (retval) {
@@ -223,13 +225,13 @@ exit(retval);//Salida incondicional al generar un unico trabajo :-)
 			"Job generated ret (%d) \n", retval
 			);
 		}
-            }
+            //}
             // Now sleep for a few seconds to let the transitioner
             // create instances for the jobs we just created.
             // Otherwise we could end up creating an excess of jobs.
-            sleep(5);
-        }
-    }
+            //sleep(5);
+        //}
+    //}
 }
 
 void usage(char *name) {
@@ -272,6 +274,8 @@ int main(int argc, char** argv) {
             user_id = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "--app")) {
             app_name = argv[++i];
+        } else if (!strcmp(argv[i], "--alias")) {
+            alias = argv[++i];
         } else if (!strcmp(argv[i], "--in_template_file")) {
             in_template_file = argv[++i];
         } else if (!strcmp(argv[i], "--out_template_file")) {
