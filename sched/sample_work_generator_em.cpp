@@ -176,7 +176,7 @@ return_create_work = create_work(
 uwu.user_id=user_id;   // parameter to program.
 uwu.workunit_id=wu.id; // get id from created working unit.
 strcpy(uwu.alias,alias);
-printf("PARAMETROS user_id (%d) workunit_id (%d) (%s) \n", user_id, wu.id, uwu.parameters);
+printf("PARAMETROS user_id (%d) workunit_id (%d)  alias (%s) parametros (%s) \n", user_id, wu.id, alias, uwu.parameters);
 uwu.insert();
     /*
      * FIN : EM insert into user_workunit

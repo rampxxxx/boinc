@@ -883,8 +883,8 @@ void DB_USER_WORKUNIT::db_print(char* buf){
         "alias='%s' ",
         user_id,
         workunit_id,
-        alias,
-	parameters
+	parameters,
+        alias
     );
 }
 
@@ -893,8 +893,8 @@ void DB_USER_WORKUNIT::db_parse(MYSQL_ROW &r) {
     clear();
     user_id = atoi(r[i++]);
     workunit_id = atof(r[i++]);
-    strcpy2(alias, r[i++]);
     strcpy2(parameters, r[i++]);
+    strcpy2(alias, r[i++]);
 }
 void DB_CREDITED_JOB::db_print(char* buf){
     sprintf(buf,
