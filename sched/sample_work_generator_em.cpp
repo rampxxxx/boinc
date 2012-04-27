@@ -68,12 +68,13 @@ int seqno;
 using namespace std;
 void readParametersFile(const char* fileName, char*content)
 {
+#define MAX_LINE 1000
  ifstream myReadFile;
  myReadFile.open(fileName);
- char line[100]={0};
+ char line[MAX_LINE+1]={0};
  if (myReadFile.is_open()) {
  while (!myReadFile.eof()) {
-    myReadFile.getline(line,100);
+    myReadFile.getline(line,MAX_LINE);
     strcat(content, line);
     strcat(content, "\n");
  }
