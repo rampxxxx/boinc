@@ -118,6 +118,7 @@ printf("Intentando lanzar el comando KO \n");
 }
 printf("Intentando lanzar el comando OK \n");
 readParametersFile(path, uwu.parameters);
+readParametersFile("/tmp/newTaskExplain.txt", uwu.parametersE);
 /*
     FILE* f = fopen(path, "w");
     if (!f) return ERR_FOPEN;
@@ -177,7 +178,7 @@ return_create_work = create_work(
 uwu.user_id=user_id;   // parameter to program.
 uwu.workunit_id=wu.id; // get id from created working unit.
 strcpy(uwu.alias,alias);
-printf("PARAMETROS user_id (%d) workunit_id (%d)  alias (%s) parametros (%s) \n", user_id, wu.id, alias, uwu.parameters);
+printf("PARAMETROS user_id (%d) workunit_id (%d)  alias (%s) parametros (%s) parametrosE (%s) \n", user_id, wu.id, alias, uwu.parameters, uwu.parametersE);
 uwu.insert();
     /*
      * FIN : EM insert into user_workunit

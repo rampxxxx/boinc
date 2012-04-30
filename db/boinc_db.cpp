@@ -880,11 +880,13 @@ void DB_USER_WORKUNIT::db_print(char* buf){
         "user_id=%d, "
         "workunit_id=%f, "
         "parameters='%s', "
-        "alias='%s' ",
+        "alias='%s', "
+        "parametersE='%s' ",
         user_id,
         workunit_id,
 	parameters,
-        alias
+        alias,
+	parametersE
     );
 }
 
@@ -895,6 +897,7 @@ void DB_USER_WORKUNIT::db_parse(MYSQL_ROW &r) {
     workunit_id = atof(r[i++]);
     strcpy2(parameters, r[i++]);
     strcpy2(alias, r[i++]);
+    strcpy2(parametersE, r[i++]);
 }
 void DB_CREDITED_JOB::db_print(char* buf){
     sprintf(buf,
